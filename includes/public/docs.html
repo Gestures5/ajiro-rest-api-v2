@@ -1,954 +1,664 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Dashboard Pro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        blue: {"500":"#3b82f6"},
-                        gray: {
-                            "800": "#1e293b",
-                            "900": "#0f172a"
-                        },
-                        "deep-black": "#020617",
-                        "gradient-start": "#00ffff",
-                        "gradient-mid": "#00bfff",
-                        "gradient-end": "#1e90ff"
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
-                    },
-                },
-            },
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #020617;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(30, 144, 255, 0.05) 0%, transparent 20%);
-            background-attachment: fixed;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #1e293b;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #00bfff;
-            border-radius: 20px;
-        }
-        .capitalize {
-            text-transform: capitalize;
-        }
-        .break-all {
-            word-break: break-all;
-        }
-        .bg-deep-black {
-            background-color: rgba(2, 6, 23, 0.8);
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-        .loading-pulse {
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes pulse-scale {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.9;
-            }
-        }
-        .animate-pulse-scale {
-            animation: pulse-scale 2s ease-in-out infinite;
-        }
-        @keyframes rotateRight {
-            0% { transform: rotate(-90deg); }
-            100% { transform: rotate(0deg); }
-        }
-        @keyframes rotateDown {
-            0% { transform: rotate(-90deg); }
-            100% { transform: rotate(0deg); }
-        }
-        .rotate-right {
-            animation: rotateRight 0.3s ease-in-out forwards;
-        }
-        .rotate-down {
-            animation: rotateDown 0.3s ease-in-out forwards;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #00ffff, #00bfff, #1e90ff);
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #00ffff, #00bfff, #1e90ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .helvetica-heading {
-            font-weight: 700;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        @keyframes fadeInScale {
-          0% {
-            opacity: 0;
-            transform: scale(0.9);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        .card-animate {
-          animation: fadeInScale 0.5s ease-out forwards;
-        }
-        body.sidebar-open {
-            overflow: hidden;
-        }
-        .icon-highlight:focus {
-            outline: none;
-        }
-
-        /* Scrollbar styles */
-        .custom-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 191, 255, 0.5) transparent;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 191, 255, 0.5);
-            border-radius: 20px;
-            border: transparent;
-        }
-
-        /* Hide scrollbar by default, show on hover/scroll */
-        .hide-scrollbar {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .hide-scrollbar:hover,
-        .hide-scrollbar:focus,
-        .hide-scrollbar:focus-within {
-            scrollbar-width: thin;
-            -ms-overflow-style: auto;
-        }
-
-        .hide-scrollbar:hover::-webkit-scrollbar,
-        .hide-scrollbar:focus::-webkit-scrollbar,
-        .hide-scrollbar:focus-within::-webkit-scrollbar {
-            display: block;
-        }
-        .method-btn.active {
-            background-color: #3b82f6;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Dashboard</title>
+  <meta name="description" content="API Dashboard: Manage and monitor your API endpoints efficiently." />
+  <meta name="theme-color" content="#121212" />
+  <link rel="icon" href="favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      /* Hide scrollbars by default for Firefox */
+      scrollbar-width: none;
+      /* Hide scrollbars for IE, Edge */
+      -ms-overflow-style: none;
+    }
+    /* For WebKit browsers (Chrome, Safari) */
+    body::-webkit-scrollbar {
+      width: 8px;
+      background: transparent;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    /* When the user scrolls, show a thin scrollbar */
+    body.scrolling {
+      scrollbar-width: thin; /* Firefox */
+    }
+    body.scrolling::-webkit-scrollbar {
+      opacity: 1;
+    }
+    .material-icons {
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* High-Quality Professional Fade In Up Animation with Sequential Delay */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+      }
+      80% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1.02);
+      }
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+    .fade-in-up {
+      animation: fadeInUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      will-change: opacity, transform;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: '#121212',
+            surface: '#1E1E1E',
+            primary: '#BB86FC',
+            'primary-variant': '#3700B3',
+            secondary: '#03DAC6',
+            'on-background': '#E1E1E1',
+            'on-surface': '#FFFFFF',
+            'on-primary': '#000000',
+            'on-secondary': '#000000',
+            error: '#CF6679',
+          },
+        },
+      },
+    }
+  </script>
 </head>
-<body class="bg-deep-black text-gray-100">
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar Overlay -->
-        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden z-40"></div>
-
-        <!-- Sidebar -->
-        <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-80 transform overflow-y-auto bg-gray-900 transition-all duration-300 ease-in-out -translate-x-full md:relative md:translate-x-0 custom-scrollbar hide-scrollbar">
-            <div class="flex h-full flex-col">
-                <div class="flex flex-col">
-                    <div class="flex items-center justify-between p-4 h-16">
-                        <h2 id="sidebarTitle" class="text-sm font-medium text-white flex items-center helvetica-heading">
-                            <img src="https://i.ibb.co/XYk4dXn/image.png" alt="API" class="w-5 h-5 mr-2" />
-                            <span id="sidebarTitleText" class="gradient-text">API Dashboard Pro</span>
-                        </h2>
-                    </div>
-                    <div class="h-[1px] bg-blue-500 w-full"></div>
-                </div>
-                <div class="px-4 py-4">
-                    <div class="relative">
-                        <input
-                            type="search"
-                            id="apiSearch"
-                            placeholder="Search APIs..."
-                            class="w-full px-4 py-2 text-sm text-gray-100 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-gradient-start pl-9"
-                        />
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3 top-2.5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-                <nav id="sidebarNav" class="flex-1 space-y-1 px-3 py-3">
-                    <!-- API categories and endpoints will be dynamically inserted here -->
-                </nav>
-            </div>
+<body class="bg-background text-on-background">
+  <div id="app" class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-80 bg-surface overflow-hidden transition-transform duration-300 ease-in-out transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 shadow-lg">
+      <div class="flex flex-col h-full">
+        <div class="p-4 flex items-center">
+          <span class="material-icons text-primary mr-2">api</span>
+          <h1 class="text-xl font-medium text-on-surface">API Dashboard</h1>
         </div>
-
-        <!-- Main content -->
-        <div class="relative flex flex-1 flex-col overflow-y-auto bg-deep-black custom-scrollbar hide-scrollbar">
-            <!-- Header -->
-            <header class="sticky top-0 z-30 bg-gray-900 bg-opacity-90 border-b border-blue-500">
-                <div class="container mx-auto">
-                    <div class="flex flex-col">
-                        <div class="flex h-16 items-center justify-between px-4">
-                            <button id="toggleSidebar" class="md:hidden text-gray-100 hover:text-white focus:outline-none p-2 rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
-                                </svg>
-                            </button>
-                            <div id="greeting" class="text-sm font-medium text-gray-100 gradient-text"></div>
-                            <div class="flex items-center">
-                                <!-- New API Tester Button -->
-                                <button id="apiTesterBtn" class="text-gray-100 hover:text-white focus:outline-none p-2 rounded-md mr-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </button>
-                                <button id="showNotifications" class="text-gray-100 hover:text-white focus:outline-none p-2 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Main content -->
-            <main id="mainContent" class="flex-1 px-4 py-4 bg-gray-900 bg-opacity-50 relative z-20">
-                <!-- Cards will be dynamically inserted here -->
-            </main>
+        <div class="px-4 mb-4">
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+              <span class="material-icons text-on-surface opacity-60">search</span>
+            </span>
+            <input
+              id="search-input"
+              type="text"
+              autocomplete="off"
+              aria-label="Search APIs"
+              placeholder="Search APIs"
+              class="w-full rounded-md bg-background pl-10 pr-4 py-2 text-sm text-on-background placeholder-on-background placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
         </div>
-    </div>
+        <nav class="flex-grow overflow-y-auto" id="api-categories">
+          <!-- API categories will be dynamically inserted here -->
+        </nav>
+      </div>
+    </aside>
 
-    <!-- Welcome Popup -->
-    <div id="welcomePopup" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-800 bg-opacity-90 rounded-lg border-2 border-gradient-mid p-6 max-w-md w-full mx-4 shadow-lg">
-            <h2 id="welcomeTitle" class="text-2xl font-bold gradient-text mb-4 helvetica-heading">Welcome to API Dashboard Pro!</h2>
-            <p class="text-gray-100 mb-6">Get started by exploring our API categories and endpoints. Use the search function to find specific APIs quickly.</p>
-            <div class="space-y-4">
-                <div class="flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 gradient-text mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                    <p class="text-gray-100">Browse API categories in the sidebar</p>
-                </div>
-                <div class="flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 gradient-text mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                    <p class="text-gray-100">Click on endpoints to view details and access the api or copy the api link</p>
-                </div>
-                <div class="flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 gradient-text mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                    <p class="text-gray-100">Use the search bar to find specific APIs</p>
-                </div>
-            <div class="flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 gradient-text mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                    <p class="text-gray-100">And if copy the endpoints link you can go back to home and press the button that is before notification icon</p>
-            </div>
-            </div>
-            <button id="closeWelcomePopup" class="mt-6 w-full gradient-bg text-white py-2 px-4 rounded-md hover:opacity-90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gradient-start focus:ring-opacity-50 transform hover:scale-105 helvetica-heading">
-                Get Started
-            </button>
-        </div>
-    </div>
-
-    <script>
-    // Fetch API list
-    let apiList = [];
-    let openCategoryDiv = null;
-    let openEndpointDiv = null;
-
-    async function fetchApiList() {
-        try {
-            const response = await fetch('/api-list');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            apiList = data.apis;
-            updateDashboard();
-        } catch (error) {
-            console.error('Error fetching API list:', error);
-            showErrorMessage('Failed to fetch API list. Please try again later.');
-        }
-    }
-
-    function showErrorMessage(message) {
-        const mainContent = document.getElementById('mainContent');
-        mainContent.innerHTML = `
-            <div class="bg-red-500 text-white p-4 rounded-md">
-                <p>${message}</p>
-            </div>
-        `;
-    }
-
-    const cardData = [
-        {
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>',
-            title: 'Total Endpoints',
-            id: 'totalEndpoints'
-        },
-        {
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>',
-            title: 'Total Categories',
-            id: 'totalCategories'
-        },
-        {
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>',
-            title: 'Battery',
-            id: 'batteryLevel'
-        },
-        {
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>',
-            title: 'Current Date',
-            id: 'currentDate'
-        },
-        {
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
-            title: 'Current Time',
-            id: 'currentTime'
-        }
-    ];
-
-    function generateCardHTML(card, index) {
-        return `
-            <div class="bg-gray-800 bg-opacity-80 rounded-lg border-2 border-gradient-mid px-4 py-3 flex flex-col items-center justify-center h-32 shadow-lg card-animate" style="animation-delay: ${index * 0.1}s;">
-                <div class="gradient-text mb-2">
-                    ${card.icon}
-                </div>
-                <h3 class="text-sm font-medium text-gray-100 mb-1 helvetica-heading">${card.title}</h3>
-                <p id="${card.id}" class="text-2xl font-semibold text-white loading-pulse gradient-text">--</p>
-            </div>
-        `;
-    }
-
-    function renderCards() {
-        const mainContent = document.getElementById('mainContent');
-        const cardsHTML = cardData.map((card, index) => generateCardHTML(card, index)).join('');
-        mainContent.innerHTML = `
-            <div class="max-w-7xl mx-auto space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    ${cardsHTML}
-                </div>
-            </div>
-        `;
-    }
-
-    function updateDashboard() {
-        const totalEndpoints = apiList.length;
-        const categories = new Set(apiList.map(api => api.category));
-        const totalCategories = categories.size;
-
-        document.getElementById('totalEndpoints').textContent = totalEndpoints;
-        document.getElementById('totalCategories').textContent = totalCategories;
-
-        // Remove loading animations
-        document.getElementById('totalEndpoints').classList.remove('loading-pulse');
-        document.getElementById('totalCategories').classList.remove('loading-pulse');
-
-        renderCategories(apiList);
-    }
-
-    function createEndpointElement(endpoint) {
-        const endpointDiv = document.createElement('div');
-        endpointDiv.className = 'rounded-md mb-1';
-
-        const endpointButton = document.createElement('button');
-        endpointButton.className = 'flex w-full items-center justify-between px-3 py-2 text-sm text-gray-100 hover:bg-gray-800 transition-colors duration-200 ease-in-out rounded-md focus:outline-none focus:ring-2 focus:ring-gradient-start';
-        endpointButton.innerHTML = `
-            <span class="capitalize">${endpoint.name}</span>
-            <span class="bg-gray-700 text-gray-100 text-xs px-2 py-0.5 rounded">GET</span>
-        `;
-
-        const endpointDetails = document.createElement('div');
-        endpointDetails.className = 'mt-2 px-3 py-2 text-xs text-gray-300 bg-gray-800 rounded-md hidden';
-        endpointDetails.innerHTML = `
-            <p class="mb-2"><strong class="text-gray-100">Endpoint:</strong> <span class="break-all">${endpoint.endpoint}</span></p>
-            <p class="mb-3"><strong class="text-gray-100">Description:</strong> ${endpoint.description}</p>
-            <div class="flex justify-between items-center">
-                <a href="${endpoint.endpoint}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-3 py-1.5 text-sm font-medium text-white gradient-bg rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gradient-start transition-colors duration-200 ease-in-out">
-                    Access API
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                        <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-                    </svg>
-                </a>
-                <button class="copy-btn inline-flex items-center justify-center px-3 py-1.5 text-sm font-medium text-white bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200 ease-in-out">
-                    Copy
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                        <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
-                    </svg>
-                </button>
-            </div>
-        `;
-
-        endpointButton.addEventListener('click', () => {
-            if (openEndpointDiv && openEndpointDiv !== endpointDetails) {
-                openEndpointDiv.classList.add('hidden');
-            }
-            endpointDetails.classList.toggle('hidden');
-            openEndpointDiv = endpointDetails.classList.contains('hidden') ? null : endpointDetails;
-        });
-
-        const copyBtn = endpointDetails.querySelector('.copy-btn');
-        copyBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            navigator.clipboard.writeText(endpoint.endpoint).then(() => {
-                copyBtn.textContent = 'Copied!';
-                setTimeout(() => {
-                    copyBtn.innerHTML = `
-                        Copy
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
-                        </svg>
-                    `;
-                }, 2000);
-            });
-        });
-
-        endpointDiv.appendChild(endpointButton);
-        endpointDiv.appendChild(endpointDetails);
-        return endpointDiv;
-    }
-
-    function renderCategories(apis) {
-        const sidebarNav = document.getElementById('sidebarNav');
-        sidebarNav.innerHTML = '';
-
-        const categories = {};
-        apis.forEach(api => {
-            if (!categories[api.category]) {
-                categories[api.category] = [];
-            }
-            categories[api.category].push(api);
-        });
-
-        Object.entries(categories).forEach(([category, endpoints]) => {
-            const categoryDiv = document.createElement('div');
-            categoryDiv.className = 'mb-1';
-
-            const categoryButton = document.createElement('button');
-            categoryButton.className = 'flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm font-medium text-gray-100 transition-colors duration-200 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gradient-start';
-            categoryButton.innerHTML = `
-                <span class="capitalize">${category}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200" style="transform: rotate(0deg);" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Header -->
+      <header class="bg-surface shadow-md z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center py-2 md:justify-start md:space-x-10">
+            <div class="flex justify-start lg:w-0 lg:flex-1">
+              <button id="sidebar-toggle" class="inline-flex items-center justify-center p-2 rounded-md text-on-surface hover:text-primary hover:bg-primary hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary transition-colors lg:hidden" aria-label="Toggle sidebar">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-            `;
+              </button>
+            </div>
+            <h1 id="greeting" class="text-base font-medium text-on-surface">
+              <!-- Greeting will be dynamically inserted here -->
+            </h1>
+            <div class="flex items-center justify-end md:flex-1 lg:w-0 space-x-2">
+              <button id="api-tester-toggle" class="inline-flex items-center justify-center p-2 rounded-md text-on-surface hover:text-primary hover:bg-primary hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary transition-colors" aria-label="Open API Tester">
+                <span class="material-icons">integration_instructions</span>
+              </button>
+              <button id="notifications-toggle" class="inline-flex items-center justify-center p-2 rounded-md text-on-surface hover:text-primary hover:bg-primary hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary transition-colors" aria-label="Toggle notifications" aria-controls="notifications-popover" aria-expanded="false">
+                <span class="material-icons">notifications</span>
+              </button>
+              <div id="notifications-popover" class="hidden absolute right-0 mt-2 w-80 bg-surface rounded-md shadow-lg z-50 top-14" role="dialog" aria-label="Notifications">
+                <div class="p-4">
+                  <h4 class="text-lg font-medium mb-2 text-on-surface">Notifications</h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-center">
+                      <span class="material-icons text-primary mr-2">info</span>
+                      <span class="text-on-surface">New API version available</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span class="material-icons text-secondary mr-2">warning</span>
+                      <span class="text-on-surface">Scheduled maintenance in 2 days</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
 
-            const endpointsDiv = document.createElement('div');
-            endpointsDiv.className = 'mt-1 space-y-1 pl-3 hidden';
+      <!-- Main Dashboard Content -->
+      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-background relative">
+        <div id="backdrop" class="fixed inset-0 bg-background bg-opacity-50 backdrop-blur-sm z-40 lg:hidden hidden"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="dashboard-cards">
+            <!-- Dashboard cards will be dynamically inserted here with sequential animation -->
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
 
-            endpoints.forEach(endpoint => {
-                endpointsDiv.appendChild(createEndpointElement(endpoint));
-            });
+  <!-- API Tester Modal -->
+  <div id="api-tester-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-surface text-on-surface rounded-lg p-6 w-full max-w-lg relative">
+      <button id="api-tester-close" class="absolute top-2 right-2 text-on-surface hover:text-primary">
+        <span class="material-icons">close</span>
+      </button>
+      <h2 class="text-xl font-semibold mb-4">API Tester</h2>
+      <form id="api-tester-form" class="space-y-4">
+        <div>
+          <label for="api-tester-api-select" class="block text-sm font-medium">Choose API</label>
+          <select id="api-tester-api-select" class="mt-1 block w-full rounded-md bg-background border border-on-background text-on-background p-2">
+            <option value="">Select an API</option>
+          </select>
+        </div>
+        <div>
+          <label for="api-tester-endpoint" class="block text-sm font-medium">Endpoint URL</label>
+          <textarea id="api-tester-endpoint" rows="2" class="mt-1 block w-full rounded-md bg-background border border-on-background text-on-background p-2 whitespace-normal break-words" placeholder="https://example.com/api"></textarea>
+        </div>
+        <div>
+          <label for="api-tester-method" class="block text-sm font-medium">HTTP Method</label>
+          <select id="api-tester-method" class="mt-1 block w-full rounded-md bg-background border border-on-background text-on-background p-2">
+            <option value="GET" selected>GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+            <option value="PATCH">PATCH</option>
+          </select>
+        </div>
+        <div id="api-tester-body-container" class="hidden">
+          <label for="api-tester-body" class="block text-sm font-medium">Request Body</label>
+          <textarea id="api-tester-body" rows="4" class="mt-1 block w-full rounded-md bg-background border border-on-background text-on-background p-2" placeholder='{"key": "value"}'></textarea>
+        </div>
+        <div>
+          <button type="submit" class="w-full px-4 py-2 bg-primary text-on-primary rounded-md hover:bg-primary-variant transition-colors">Send Request</button>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Response</label>
+          <pre id="api-tester-response" class="mt-1 p-2 bg-background border border-on-background rounded-md text-xs overflow-auto max-h-60 whitespace-pre-wrap"></pre>
+        </div>
+      </form>
+    </div>
+  </div>
 
-            categoryButton.addEventListener('click', () => {
-                if (openCategoryDiv && openCategoryDiv !== endpointsDiv) {
-                    openCategoryDiv.classList.add('hidden');
-                    openCategoryDiv.previousElementSibling.querySelector('svg').style.transform = 'rotate(0deg)';
-                }
-                endpointsDiv.classList.toggle('hidden');
-                const arrow = categoryButton.querySelector('svg');
-                if (endpointsDiv.classList.contains('hidden')) {
-                    arrow.style.transform = 'rotate(0deg)';
-                } else {
-                    arrow.style.transform = 'rotate(180deg)';
-                }
-                openCategoryDiv = endpointsDiv.classList.contains('hidden') ? null : endpointsDiv;
-            });
+  <!-- Get Started (Welcome) Modal -->
+  <div id="welcome-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-surface text-on-surface rounded-lg p-6 w-full m-4 max-w-md sm:max-w-lg md:max-w-2xl relative overflow-y-auto max-h-full">
+      <h2 class="text-2xl font-semibold mb-4">Welcome!</h2>
+      <div class="space-y-4 text-sm">
+        <p>Hello and welcome to API Dashboard. Explore our user-friendly interface to search, test, and monitor your favorite APIs in real time.</p>
+        <p>Enjoy quick access to key metrics and an interactive API tester—designed just for you.</p>
+      </div>
+      <div class="mt-6 text-center">
+        <button id="get-started" class="px-6 py-2 bg-primary text-on-primary rounded-md hover:bg-primary-variant focus:outline-none focus:ring-2 focus:ring-primary">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </div>
 
-            categoryDiv.appendChild(categoryButton);
-            categoryDiv.appendChild(endpointsDiv);
-            sidebarNav.appendChild(categoryDiv);
+  <script>
+    // Global Variables
+    let apiListGlobal = [];
+    let initialLoad = true; // Trigger animation only on initial load
+
+    const getMethodColor = (method) => {
+      switch (method?.toUpperCase()) {
+        case 'GET': return 'bg-blue-500 text-white';
+        case 'POST': return 'bg-green-500 text-white';
+        case 'PUT': return 'bg-yellow-500 text-black';
+        case 'DELETE': return 'bg-red-500 text-white';
+        case 'PATCH': return 'bg-purple-500 text-white';
+        default: return 'bg-gray-500 text-white';
+      }
+    };
+
+    // Render API Categories in Sidebar
+    const renderAPICategories = (apiCategories) => {
+      const categoriesContainer = document.getElementById('api-categories');
+      categoriesContainer.innerHTML = apiCategories.map(category => `
+        <div class="mb-2">
+          <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-on-surface hover:bg-primary hover:bg-opacity-20 focus:outline-none focus:bg-primary focus:bg-opacity-20 rounded-lg transition-colors" aria-expanded="false">
+            <span>${capitalizeFirstLetter(category.name)}</span>
+            <span class="material-icons transition-transform duration-200">expand_more</span>
+          </button>
+          <ul class="mt-1 space-y-1 hidden">
+            ${category.apis.map(api => `
+<li>
+  <button class="w-full text-left px-6 py-2 text-sm text-on-surface hover:bg-primary hover:bg-opacity-20 focus:outline-none focus:bg-primary focus:bg-opacity-20 rounded-lg transition-colors flex justify-between items-center" data-api-id="${api.name}">
+    <span>${capitalizeFirstLetter(api.name)}</span>
+    <span class="text-xs font-medium px-2 py-1 rounded-full ${getMethodColor(api.method)}">${api.method || 'GET'}</span>
+  </button>
+  <div class="hidden px-8 py-2 text-xs text-on-surface bg-surface rounded-lg mt-1" id="${api.name}-info">
+    <p class="mb-2 whitespace-normal break-words">${api.description}</p>
+    <p class="text-primary break-words whitespace-normal mb-2" id="${api.name}-endpoint">${api.endpoint}</p>
+    <div class="flex items-center space-x-2">
+      <button class="flex-grow px-2 py-1 text-sm text-center text-on-primary bg-primary rounded-lg hover:bg-primary-variant focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-colors" onclick="window.open('${api.endpoint}', '_blank')">
+        <span class="material-icons text-sm mr-1 align-text-top">open_in_new</span>
+        Access API
+      </button>
+      <button class="inline-flex items-center px-2 py-1 bg-primary text-on-primary rounded hover:bg-primary-variant transition-colors copy-endpoint" data-endpoint="${api.endpoint}" data-api-id="${api.name}" title="Copy Endpoint">
+        <span class="material-icons text-sm">content_copy</span>
+      </button>
+    </div>
+  </div>
+</li>
+`).join('')}
+          </ul>
+        </div>
+      `).join('');
+
+      // Toggle API Category Lists
+      categoriesContainer.querySelectorAll('button:not([data-api-id])').forEach(button => {
+        button.addEventListener('click', () => {
+          const ul = button.nextElementSibling;
+          const icon = button.querySelector('.material-icons');
+          const expanded = button.getAttribute('aria-expanded') === 'true';
+          button.setAttribute('aria-expanded', String(!expanded));
+          ul.classList.toggle('hidden');
+          icon.style.transform = !expanded ? 'rotate(180deg)' : 'rotate(0deg)';
         });
-    }
+      });
 
-    function filterApis(searchTerm) {
-        return apiList.filter(api =>
-            api.name.toLowerCase().includes(searchTerm) ||
-            api.description.toLowerCase().includes(searchTerm) ||
-            api.category.toLowerCase().includes(searchTerm)
-        );
-    }
+      // Toggle API Details
+      categoriesContainer.querySelectorAll('button[data-api-id]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const apiId = button.getAttribute('data-api-id');
+          const apiInfo = document.getElementById(`${apiId}-info`);
+          document.querySelectorAll('[id$="-info"]').forEach(el => {
+            if (el.id !== `${apiId}-info`) {
+              el.classList.add('hidden');
+            }
+          });
+          apiInfo.classList.toggle('hidden');
+        });
+      });
 
-    const searchInput = document.getElementById('apiSearch');
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const filteredApis = filterApis(searchTerm);
-        renderCategories(filteredApis);
+      // Copy Endpoint Functionality
+      document.querySelectorAll('.copy-endpoint').forEach(button => {
+        button.addEventListener('click', () => {
+          const endpoint = button.getAttribute('data-endpoint');
+          navigator.clipboard.writeText(endpoint)
+            .then(() => {
+              const testerInput = document.getElementById('api-tester-endpoint');
+              if (testerInput) {
+                testerInput.value = endpoint;
+              }
+            })
+            .catch(err => console.error('Failed to copy endpoint:', err));
+        });
+      });
+    };
 
-        if (searchTerm) {
-            document.querySelectorAll('#sidebarNav > div').forEach(categoryDiv => {
-                const endpointsDiv = categoryDiv.querySelector('div:last-child');
-                const hasMatch = Array.from(endpointsDiv.children).some(child => 
-                    child.textContent.toLowerCase().includes(searchTerm)
-                );
-                if (hasMatch) {
-                    endpointsDiv.classList.remove('hidden');
-                    const arrow = categoryDiv.querySelector('button svg');
-                    arrow.style.transform = 'rotate(180deg)';
-                }
-            });
+    // Populate API Tester Dropdown
+    const populateAPITesterAPIList = (apiList) => {
+      const select = document.getElementById('api-tester-api-select');
+      select.innerHTML = '<option value="">Select an API</option>';
+      apiList.forEach(api => {
+        const option = document.createElement('option');
+        option.value = api.endpoint;
+        option.textContent = `${capitalizeFirstLetter(api.name)} (${api.method || 'GET'})`;
+        option.dataset.method = api.method || 'GET';
+        select.appendChild(option);
+      });
+    };
+
+    // Render Dashboard Cards (Animation only on initial load, with sequential delay)
+    const renderDashboardCards = () => {
+      const cardsContainer = document.getElementById('dashboard-cards');
+      cardsContainer.innerHTML = dashboardCards.map((card, index) => `
+        <div class="bg-surface rounded-lg shadow-sm p-4 transition-shadow duration-200 hover:shadow-md ${initialLoad ? 'fade-in-up' : ''}" ${initialLoad ? `style="animation-delay: ${index * 0.2}s;"` : ''}>
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-sm font-medium text-on-surface">${card.title}</h3>
+            <span class="material-icons text-primary">${card.icon}</span>
+          </div>
+          <p class="text-2xl font-semibold text-on-surface mb-2">${card.value}</p>
+          ${card.change ? `
+            <p class="text-sm font-medium ${card.change.startsWith('+') ? 'text-secondary' : 'text-error'} flex items-center">
+              <span class="material-icons text-sm mr-1">${card.change.startsWith('+') ? 'arrow_upward' : 'arrow_downward'}</span>
+              ${card.change}
+            </p>
+          ` : ''}
+          ${card.subtitle ? `<p class="text-sm text-on-surface opacity-70 mt-1">${card.subtitle}</p>` : ''}
+        </div>
+      `).join('');
+      // After initial rendering, disable further animations
+      if (initialLoad) {
+        initialLoad = false;
+      }
+    };
+
+    const updateDashboardCards = (apiList, apiCategories) => {
+      const totalEndpointsCard = dashboardCards.find(card => card.title === "Total Endpoints");
+      if (totalEndpointsCard) totalEndpointsCard.value = apiList.length;
+      const totalCategoriesCard = dashboardCards.find(card => card.title === "Total Categories");
+      if (totalCategoriesCard) totalCategoriesCard.value = apiCategories.length;
+      renderDashboardCards();
+    };
+
+    /* Dynamic Updates */
+    const updateDynamicCards = async () => {
+      const now = new Date();
+      const timeCard = dashboardCards.find(card => card.title === "Current Time");
+      timeCard.value = formatTime(now);
+      timeCard.subtitle = formatDate(now);
+
+      if ('getBattery' in navigator) {
+        try {
+          const battery = await navigator.getBattery();
+          const batteryCard = dashboardCards.find(card => card.title === "Battery");
+          batteryCard.value = `${(battery.level * 100).toFixed(0)}%`;
+          batteryCard.icon = battery.charging ? 'battery_charging_full' : 'battery_full';
+        } catch (error) {
+          console.error('Battery API error:', error);
         }
-    });    // Initial fetch and render
-    async function initializeDashboard() {
-        await fetchApiList();
-        renderCards();
-        updateDashboard();        updateBatteryLevel();
-        updateDateTime();
-    }
+      }
+      renderDashboardCards();
+    };
 
-    initializeDashboard();
+    const updateGreeting = () => {
+      const greeting = document.getElementById('greeting');
+      const hour = new Date().getHours();
+      greeting.textContent = hour < 12
+        ? "Good Morning"
+        : hour < 18
+          ? "Good Afternoon"
+          : "Good Evening";
+    };
 
-    // Dynamic greeting
-    const greetingElement = document.getElementById('greeting');
+    /* Real-time Stats */
+    const updateRealtimeStats = () => {
+      fetch('/stats')
+        .then(response => response.json())
+        .then(data => {
+          const totalRequestsCard = dashboardCards.find(card => card.title === "Total Requests");
+          if (totalRequestsCard) {
+            totalRequestsCard.value = data.totalRequests.toLocaleString();
+            totalRequestsCard.change = data.requestsChange;
+          }
+          const mostUsedTodayCard = dashboardCards.find(card => card.title === "Most Used Today");
+          if (mostUsedTodayCard) {
+            mostUsedTodayCard.value = data.mostUsedToday.name;
+            mostUsedTodayCard.subtitle = data.mostUsedToday.category;
+          }
+          renderDashboardCards();
+        })
+        .catch(err => console.error('Error fetching real-time stats:', err));
+    };
 
-    function getGreeting() {
-        const hour = new Date().getHours();
-        if (hour < 12) return "Good Morning";
-        if (hour < 18) return "Good Afternoon";
-        if (hour < 22) return "Good Evening";
-        return "Good Night";
-    }
+    /* Reset Function */
+    const resetSidebar = () => {
+      const categoriesContainer = document.getElementById('api-categories');
+      if (categoriesContainer) {
+        categoriesContainer.querySelectorAll('ul:not(.hidden)').forEach(ul => {
+          ul.classList.add('hidden');
+          const btn = ul.previousElementSibling;
+          if (btn) {
+            btn.setAttribute('aria-expanded', 'false');
+            const icon = btn.querySelector('.material-icons');
+            if (icon) icon.style.transform = 'rotate(0deg)';
+          }
+        });
+      }
+      document.querySelectorAll('[id$="-info"]:not(.hidden)').forEach(info => info.classList.add('hidden'));
+    };
 
-    function updateGreeting() {
-        greetingElement.textContent = getGreeting();
-    }
+    /* UI Toggle Functions */
+    const toggleSidebar = () => {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('backdrop');
+      const toggleButton = document.getElementById('sidebar-toggle');
+      const isCurrentlyVisible = !sidebar.classList.contains('-translate-x-full');
+      sidebar.classList.toggle('-translate-x-full');
+      backdrop.classList.toggle('hidden');
+      document.body.classList.toggle('overflow-hidden');
+      toggleButton.setAttribute('aria-expanded', String(!isCurrentlyVisible));
+      if (sidebar.classList.contains('-translate-x-full')) resetSidebar();
+    };
+
+    const toggleNotifications = () => {
+      const popover = document.getElementById('notifications-popover');
+      const toggle = document.getElementById('notifications-toggle');
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      popover.classList.toggle('hidden');
+      toggle.setAttribute('aria-expanded', String(!expanded));
+    };
+
+    // Close API Tester and Reset Form
+    const closeAPITester = () => {
+      const testerForm = document.getElementById('api-tester-form');
+      testerForm.reset();
+      document.getElementById('api-tester-api-select').value = "";
+      document.getElementById('api-tester-endpoint').value = "";
+      document.getElementById('api-tester-method').value = "GET";
+      document.getElementById('api-tester-body-container').classList.add('hidden');
+      document.getElementById('api-tester-response').textContent = "";
+      document.getElementById('api-tester-modal').classList.add('hidden');
+    };
+
+    const openAPITester = () => document.getElementById('api-tester-modal').classList.remove('hidden');
+
+    /* Welcome Modal Functions */
+    const closeWelcomeModal = () => {
+      document.getElementById('welcome-modal').classList.add('hidden');
+    };
+
+    const openWelcomeModal = () => {
+      document.getElementById('welcome-modal').classList.remove('hidden');
+    };
+
+    /* Event Listeners */
+    fetch('/api-list')
+      .then(response => response.json())
+      .then(data => {
+        const apiList = data.apis;
+        apiListGlobal = apiList;
+        const categoriesMap = new Map();
+        apiList.forEach(api => {
+          const category = api.category || 'Uncategorized';
+          if (!categoriesMap.has(category)) categoriesMap.set(category, []);
+          categoriesMap.get(category).push(api);
+        });
+        const apiCategories = [];
+        categoriesMap.forEach((apis, category) => apiCategories.push({ name: category, apis }));
+        renderAPICategories(apiCategories);
+        updateDashboardCards(apiList, apiCategories);
+        populateAPITesterAPIList(apiList);
+      })
+      .catch(err => console.error('Error fetching API list:', err));
 
     updateGreeting();
-    setInterval(updateGreeting, 60000);
+    updateDynamicCards();
+    updateRealtimeStats();
+    setInterval(updateDynamicCards, 1000);
+    setInterval(updateRealtimeStats, 5000);
 
-    // Notifications functionality
-    const showNotificationsBtn = document.getElementById('showNotifications');
-    const mainContent = document.getElementById('mainContent');
-
-    let notifications = [];
-
-    showNotificationsBtn.addEventListener('click', () => {
-        const notificationsHTML = `
-            <div class="max-w-4xl mx-auto">
-                <div class="bg-gray-800 bg-opacity-90 rounded-xl shadow-lg overflow-hidden border-2 border-gradient-mid">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-2xl font-bold gradient-text helvetica-heading">Notifications</h2>
-                            <button id="closeNotifications" class="text-gray-100 hover:text-white focus:outline-none focus:ring-2 focus:ring-gradient-start p-2 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                        ${notifications.map((notification, index) => `
-                            <div class="py-4 ${index !== 0 ? 'border-t border-gray-700' : ''}">
-                                <h3 class="text-lg font-semibold gradient-text mb-2 helvetica-heading">${notification.title}</h3>
-                                <p class="text-gray-300">${notification.description}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            </div>
-        `;
-
-        mainContent.innerHTML = notificationsHTML;
-
-        const closeNotificationsBtn = document.getElementById('closeNotifications');
-        closeNotificationsBtn.addEventListener('click', () => {
-            location.reload();
-        });
+    document.getElementById('sidebar-toggle').addEventListener('click', toggleSidebar);
+    document.getElementById('backdrop').addEventListener('click', toggleSidebar);
+    document.getElementById('notifications-toggle').addEventListener('click', toggleNotifications);
+    document.getElementById('api-tester-toggle').addEventListener('click', openAPITester);
+    document.getElementById('api-tester-close').addEventListener('click', closeAPITester);
+    document.getElementById('api-tester-modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('api-tester-modal')) closeAPITester();
     });
 
-    // Sidebar functionality
-    const sidebar = document.getElementById('sidebar');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-    function closeAllCategories() {
-        if (openCategoryDiv) {
-            openCategoryDiv.classList.add('hidden');
-            const arrow = openCategoryDiv.previousElementSibling.querySelector('svg');
-            arrow.style.transform = 'rotate(0deg)';
-            openCategoryDiv = null;
-        }
-        if (openEndpointDiv) {
-            openEndpointDiv.classList.add('hidden');
-            openEndpointDiv = null;
-        }
-    }
-
-    function toggleSidebar() {
-        sidebar.classList.toggle('-translate-x-full');
-        sidebarOverlay.classList.toggle('hidden');
-        document.body.classList.toggle('sidebar-open');
-        if (sidebar.classList.contains('-translate-x-full')) {
-            closeAllCategories();
-        }
-    }
-
-    toggleSidebarBtn.addEventListener('click', toggleSidebar);
-
-    sidebarOverlay.addEventListener('click', () => {
-        toggleSidebar();
+    // Welcome Modal Get Started Button
+    document.getElementById('get-started').addEventListener('click', () => {
+      localStorage.setItem('visited', 'true');
+      closeWelcomeModal();
     });
 
-    document.addEventListener('click', (e) => {
-        if (!sidebar.contains(e.target) && !toggleSidebarBtn.contains(e.target) && !sidebarOverlay.contains(e.target)) {
-            if (!sidebar.classList.contains('-translate-x-full')) {
-                toggleSidebar();
-            }
+    // Update Request Body Container Based on HTTP Method
+    document.getElementById('api-tester-method').addEventListener('change', (e) => {
+      const method = e.target.value;
+      const bodyContainer = document.getElementById('api-tester-body-container');
+      method === 'GET' ? bodyContainer.classList.add('hidden') : bodyContainer.classList.remove('hidden');
+    });
+
+    // Update Endpoint and Method on API Selection
+    document.getElementById('api-tester-api-select').addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      const endpoint = selectedOption.value;
+      const method = selectedOption.dataset.method || 'GET';
+      document.getElementById('api-tester-endpoint').value = endpoint;
+      document.getElementById('api-tester-method').value = method;
+      const bodyContainer = document.getElementById('api-tester-body-container');
+      method === 'GET' ? bodyContainer.classList.add('hidden') : bodyContainer.classList.remove('hidden');
+    });
+
+    // Handle API Tester Form Submission
+    document.getElementById('api-tester-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const endpoint = document.getElementById('api-tester-endpoint').value;
+      const method = document.getElementById('api-tester-method').value;
+      const body = document.getElementById('api-tester-body').value;
+      const responseContainer = document.getElementById('api-tester-response');
+      try {
+        let options = { method };
+        if (method !== 'GET' && body) {
+          options.body = body;
+          options.headers = { 'Content-Type': 'application/json' };
         }
-    });
-
-    // Swipe right to open sidebar
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchEndX = 0;
-    let touchEndY = 0;
-
-    document.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-    });
-
-    document.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        touchEndY = e.changedTouches[0].screenY;
-        handleSwipe();
-    });
-
-    function handleSwipe() {
-        const swipeThresholdX = 100; // Minimum horizontal distance for a swipe
-        const swipeThresholdY = 50; // Maximum vertical distance allowed
-
-        const deltaX = touchEndX - touchStartX;
-        const deltaY = Math.abs(touchEndY - touchStartY);
-
-        if (deltaX > swipeThresholdX && deltaY < swipeThresholdY) {
-            // Swipe right (with limited vertical movement)
-            if (sidebar.classList.contains('-translate-x-full')) {
-                toggleSidebar();
-            }
-        }
-    }
-
-    // Battery and time functions
-    function updateBatteryLevel() {
-        const batteryEl = document.getElementById('batteryLevel');
-        if ('getBattery' in navigator) {
-            navigator.getBattery().then(function(battery) {
-                const level = Math.round(battery.level * 100);
-                batteryEl.textContent = `${level}%`;
-                batteryEl.classList.remove('loading-pulse');
-            });
+        const res = await fetch(endpoint, options);
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const json = await res.json();
+          responseContainer.textContent = JSON.stringify(json, null, 2);
+        } else if (contentType.startsWith('image/')) {
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          responseContainer.innerHTML = `<img src="${url}" alt="Image Response" class="max-w-full h-auto" />`;
+        } else if (contentType.startsWith('video/')) {
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          responseContainer.innerHTML = `<video controls class="max-w-full h-auto"><source src="${url}" type="${contentType}">Your browser does not support the video tag.</video>`;
+        } else if (contentType.startsWith('audio/')) {
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          responseContainer.innerHTML = `<audio controls class="max-w-full"><source src="${url}" type="${contentType}">Your browser does not support the audio tag.</audio>`;
         } else {
-            batteryEl.textContent = 'Not available';
-            batteryEl.classList.remove('loading-pulse');
+          const text = await res.text();
+          responseContainer.textContent = text;
         }
-    }
-
-    function updateDateTime() {
-        const now = new Date();
-        const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-
-        const dateEl = document.getElementById('currentDate');
-        const timeEl = document.getElementById('currentTime');
-
-        dateEl.textContent = now.toLocaleDateString('en-CA', dateOptions).replace(/\//g, '-');
-        timeEl.textContent = now.toLocaleTimeString('en-GB', timeOptions);
-
-        dateEl.classList.remove('loading-pulse');
-        timeEl.classList.remove('loading-pulse');
-    }
-
-    // Update every second
-    setInterval(updateDateTime, 1000);
-
-    // Update battery every minute
-    setInterval(updateBatteryLevel, 60000);
-
-    // Welcome popup functionality
-    function showWelcomePopup() {
-        const welcomePopup = document.getElementById('welcomePopup');
-        const closeWelcomePopupBtn = document.getElementById('closeWelcomePopup');
-        const isHomePage = window.location.pathname === '/docs' || window.location.pathname === '/docs.html';
-
-        if (isHomePage && !localStorage.getItem('welcomePopupShown')) {
-            welcomePopup.classList.remove('hidden');
-            closeWelcomePopupBtn.classList.add('animate-pulse-scale');
-
-            closeWelcomePopupBtn.addEventListener('click', () => {
-                closeWelcomePopupBtn.classList.remove('animate-pulse-scale');
-                welcomePopup.classList.add('hidden');
-                localStorage.setItem('welcomePopupShown', 'true');
-            });
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', showWelcomePopup);
-
-    async function fetchConfig() {
-        if (window.appConfig) {
-            return window.appConfig;
-        }
-        try {
-            const response = await fetch('/api-list');
-            const data = await response.json();
-            return data.config;
-        } catch(error) {
-            console.error('Error fetching config:', error);
-            return {};
-        }
-    }
-
-    async function updateDynamicContent() {
-        const config = await fetchConfig();
-
-        // Update document title
-        document.title = config.title || 'API Dashboard Pro';
-
-        // Update sidebar title
-        document.getElementById('sidebarTitleText').textContent = config.title || 'API Dashboard Pro';
-
-        // Update welcome popup title
-        document.getElementById('welcomeTitle').textContent = `Welcome to ${config.title || 'API Dashboard Pro'}!`;
-
-        // Update notifications
-        notifications = config.notifications || [];
-
-        // Update favicon if provided in config
-        if (config.favicon) {
-            const favicon = document.querySelector('link[rel="icon"]');
-            if (favicon) {
-                favicon.href = config.favicon;
-            } else {
-                const newFavicon = document.createElement('link');
-                newFavicon.rel = 'icon';
-                newFavicon.href = config.favicon;
-                document.head.appendChild(newFavicon);
-            }
-        }
-    }
-
-    updateDynamicContent();
-
-    // API Tester functionality
-    const apiTesterBtn = document.getElementById('apiTesterBtn');
-    apiTesterBtn.addEventListener('click', () => {
-        const apiTesterHTML = `
-            <div class="max-w-4xl mx-auto">
-                <div class="bg-gray-800 bg-opacity-90 rounded-xl shadow-lg overflow-hidden border-2 border-gradient-mid">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-2xl font-bold gradient-text helvetica-heading">API Tester</h2>
-                            <button id="closeApiTester" class="text-gray-100 hover:text-white focus:outline-none focus:ring-2 focus:ring-gradient-start p-2 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="space-y-4">
-                                <div class="relative">
-                                    <button id="apiSelectBtn" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-gradient-start focus:border-gradient-start flex justify-between items-center">
-                                        <span id="apiSelectText">Select API</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                    <div id="apiDropdown" class="absolute z-10 w-full mt-1 bg-gray-700 border border-gray-600 rounded-md shadow-lg hidden">
-                                        <ul class="py-1 max-h-60 overflow-auto custom-scrollbar">
-                                            <!-- API options will be dynamically inserted here -->
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="relative">
-                                    <input type="text" id="apiUrl" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gradient-start focus:border-gradient-start pr-8" placeholder="Enter API URL">
-                                    <button id="clearApiUrl" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="apiMethod" class="block text-sm font-medium text-gray-300 mb-2">Method</label>
-                                <div id="apiMethod" class="flex space-x-2">
-                                    <button class="method-btn px-3 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gradient-start" data-method="GET">GET</button>
-                                    <button class="method-btn px-3 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gradient-start" data-method="POST">POST</button>
-                                    <button class="method-btn px-3 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gradient-start" data-method="PUT">PUT</button>
-                                    <button class="method-btn px-3 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gradient-start" data-method="DELETE">DELETE</button>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="apiHeaders" class="block text-sm font-medium text-gray-300">Headers (JSON)</label>
-                                <textarea id="apiHeaders" rows="3" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gradient-start focus:border-gradient-start"></textarea>
-                            </div>
-                            <div>
-                                <label for="apiBody" class="block text-sm font-medium text-gray-300">Body (JSON)</label>
-                                <textarea id="apiBody" rows="5" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gradient-start focus:border-gradient-start"></textarea>
-                            </div>
-                            <button id="sendRequest" class="w-full px-4 py-2 gradient-bg text-white rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-gradient-start focus:ring-opacity-50">Send Request</button>
-                            <div>
-                                <label for="apiResponse" class="block text-sm font-medium text-gray-300">Response</label>
-                                <textarea id="apiResponse" rows="10" readonly class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none" placeholder="Response will appear here..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        mainContent.innerHTML = apiTesterHTML;
-
-        const closeApiTesterBtn = document.getElementById('closeApiTester');
-        closeApiTesterBtn.addEventListener('click', () => {
-            location.reload();
-        });
-
-        const methodButtons = document.querySelectorAll('.method-btn');
-        let selectedMethod = 'GET';
-
-        methodButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                methodButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                selectedMethod = button.getAttribute('data-method');
-            });
-        });
-
-        // Set the initial active state for the GET button
-        document.querySelector('.method-btn[data-method="GET"]').classList.add('active');
-
-        const sendRequestBtn = document.getElementById('sendRequest');
-        sendRequestBtn.addEventListener('click', async () => {
-            const url = document.getElementById('apiUrl').value;
-            const headers = JSON.parse(document.getElementById('apiHeaders').value || '{}');
-            const body = document.getElementById('apiBody').value;
-            const responseTextarea = document.getElementById('apiResponse');
-
-            try {
-                const response = await fetch(url, {
-                    method: selectedMethod,
-                    headers,
-                    body: selectedMethod !== 'GET' ? body : undefined
-                });
-
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const jsonResponse = await response.json();
-                    responseTextarea.value = JSON.stringify(jsonResponse, null, 2);
-                } else if (contentType && contentType.includes('image')) {
-                    const blob = await response.blob();
-                    const imageUrl = URL.createObjectURL(blob);
-                    responseTextarea.value = 'Image received. See below:';
-                    const img = document.createElement('img');
-                    img.src = imageUrl;
-                    img.style.maxWidth = '100%';
-                    img.style.marginTop = '10px';
-                    responseTextarea.parentNode.appendChild(img);
-                } else {
-                    const textResponse = await response.text();
-                    responseTextarea.value = textResponse;
-                }
-            } catch (error) {
-                responseTextarea.value = `Error: ${error.message}`;
-            }
-        });
-
-
-        function clearApiTesterContent() {
-            document.getElementById('apiHeaders').value = '';
-            document.getElementById('apiBody').value = '';
-            document.getElementById('apiResponse').value = '';
-            const img = document.querySelector('#apiResponse + img');
-            if (img) img.remove();
-        }
-
-        function populateApiDropdown() {
-            const dropdown = document.getElementById('apiDropdown');
-            const ul = dropdown.querySelector('ul');
-            ul.innerHTML = '';
-            apiList.forEach(api => {
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="#" class="block px-4 py-2 text-sm text-white hover:bg-gray-600">${api.name}</a>`;
-                li.querySelector('a').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    document.getElementById('apiUrl').value = api.endpoint;
-                    document.getElementById('apiSelectText').textContent = api.name;
-                    dropdown.classList.add('hidden');
-                    clearApiTesterContent();
-                });
-                ul.appendChild(li);
-            });
-        }
-
-        document.getElementById('apiSelectBtn').addEventListener('click', () => {
-            const dropdown = document.getElementById('apiDropdown');
-            dropdown.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', (e) => {
-            const dropdown = document.getElementById('apiDropdown');
-            const selectBtn = document.getElementById('apiSelectBtn');
-            if (!selectBtn.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.add('hidden');
-            }
-        });
-
-        document.getElementById('clearApiUrl').addEventListener('click', () => {
-            document.getElementById('apiUrl').value = '';
-            document.getElementById('apiSelectText').textContent = 'Select API';
-            clearApiTesterContent();
-        });
-
-        // Update the API Tester initialization
-        function initializeApiTester() {
-            populateApiDropdown();
-        }
-
-        // Call this function when initializing the API Tester
-        initializeApiTester();
+      } catch (error) {
+        responseContainer.textContent = 'Error: ' + error;
+      }
     });
-    </script>
+
+    // Close Notifications When Clicking Outside
+    document.addEventListener('click', (e) => {
+      const popover = document.getElementById('notifications-popover');
+      const toggle = document.getElementById('notifications-toggle');
+      if (!popover.contains(e.target) && !toggle.contains(e.target)) {
+        popover.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Search Filter for API Categories
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const categoryContainers = document.querySelectorAll('#api-categories > div');
+      categoryContainers.forEach(container => {
+        const categoryButton = container.querySelector('button:not([data-api-id])');
+        const categoryName = categoryButton.textContent.trim().toLowerCase();
+        const apiList = container.querySelector('ul');
+        let match = categoryName.includes(searchTerm);
+        container.querySelectorAll('li').forEach(li => {
+          if (li.textContent.trim().toLowerCase().includes(searchTerm)) match = true;
+        });
+        container.style.display = match ? 'block' : 'none';
+        if (match && searchTerm !== '') {
+          apiList.classList.remove('hidden');
+          categoryButton.setAttribute('aria-expanded', 'true');
+          const icon = categoryButton.querySelector('.material-icons');
+          if (icon) icon.style.transform = 'rotate(180deg)';
+        } else if (searchTerm === '') {
+          apiList.classList.add('hidden');
+          categoryButton.setAttribute('aria-expanded', 'false');
+          const icon = categoryButton.querySelector('.material-icons');
+          if (icon) icon.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
+
+    /* Helper Functions */
+    const formatDate = (date) => date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+
+    const formatTime = (date) => date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+
+    const capitalizeFirstLetter = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+
+    /* Dashboard Cards Data */
+    const dashboardCards = [
+      { title: "Total Endpoints", value: "0", icon: "api" },
+      { title: "Total Categories", value: "0", icon: "category" },
+      { title: "Total Requests", value: "0", change: "", icon: "refresh" },
+      { title: "Most Used Today", value: "", subtitle: "", icon: "trending_up" },
+      { title: "Battery", value: "N/A", icon: "battery_full" },
+      { title: "Current Time", value: "", subtitle: "", icon: "schedule" },
+    ];
+
+    // Automatically Open the Welcome (Get Started) Modal on Page Load If Not Visited
+    window.addEventListener('load', () => {
+      if (!localStorage.getItem('visited')) {
+        openWelcomeModal();
+      }
+    });
+
+    // Scrollbar Visibility: Add class "scrolling" on scroll and remove after 1s inactivity
+    let scrollTimer;
+    window.addEventListener('scroll', () => {
+      document.body.classList.add('scrolling');
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        document.body.classList.remove('scrolling');
+      }, 1000);
+    });
+  </script>
 </body>
 </html>
-
