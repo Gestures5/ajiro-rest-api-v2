@@ -21,6 +21,27 @@ const readConfig = () => {
 global.config = readConfig();
 global.api = new Map();
 
+// Initialize global statistics for real-time tracking
+global.stats = {
+  totalRequests: 0,
+  usageCounts: {} // { apiKey: count }
+};
+
+// Path to the persistent JSON database
+const dbFilePath = path.join(__dirname, 'db.json');
+// If the file doesn't exist, create it with default content.
+if (!fs.existsSync(dbFilePath)) {
+  fs.writeFileSync(dbFilePath, JSON.stringify(global.stats, null, 2), 'utf8');
+} else {
+  // Otherwise, load the stats from the existing file.
+  try {
+    const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf8'));
+    global.stats = dbData;
+  } catch (err) {
+    console.error('Error reading db.json:', err);
+  }
+}
+
 const app = express();
 
 // Pretty-print middleware
@@ -49,6 +70,17 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'includes', 'public'), { maxAge: '1d', etag: true }));
 app.use(express.static(path.join(__dirname, 'includes', 'assets'), { maxAge: '1d', etag: true }));
 
+// Middleware to track API usage on routes under /api
+app.use('/api', (req, res, next) => {
+  global.stats.totalRequests++;
+  // Assume the API URL is like /api/<apiKey>/...
+  const apiKey = req.path.split('/')[1];
+  if (apiKey) {
+    global.stats.usageCounts[apiKey] = (global.stats.usageCounts[apiKey] || 0) + 1;
+  }
+  next();
+});
+
 // Router setup
 const router = require("./includes/router");
 app.use(router);
@@ -60,7 +92,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Routes
+// Route to serve the main portal
 app.get("/", (req, res) => {
   try {
     let html = fs.readFileSync(path.join(__dirname, "includes", "public", "portal.html"), 'utf8');
@@ -72,6 +104,7 @@ app.get("/", (req, res) => {
   }
 });
 
+// API list endpoint
 app.get("/api-list", (req, res) => {
   try {
     const apiList = Array.from(global.api.values()).map(api => ({
@@ -90,6 +123,43 @@ app.get("/api-list", (req, res) => {
   }
 });
 
+// Real-time statistics endpoint
+app.get("/stats", (req, res) => {
+  try {
+    // Determine the most-used API based on usageCounts
+    let mostUsedApiKey = null;
+    let maxCount = 0;
+    for (const [apiKey, count] of Object.entries(global.stats.usageCounts)) {
+      if (count > maxCount) {
+        maxCount = count;
+        mostUsedApiKey = apiKey;
+      }
+    }
+
+    // If available, retrieve the API config for the most-used API
+    let mostUsedToday = { name: "N/A", category: "N/A" };
+    if (mostUsedApiKey && global.api.has(mostUsedApiKey)) {
+      const apiConfig = global.api.get(mostUsedApiKey).config;
+      mostUsedToday = { name: apiConfig.name, category: apiConfig.category || "Unknown" };
+    } else if (mostUsedApiKey) {
+      // Fallback: if no config is found, return the API key itself.
+      mostUsedToday = { name: mostUsedApiKey, category: "Unknown" };
+    }
+
+    res.json({
+      totalRequests: global.stats.totalRequests,
+      mostUsedToday
+    });
+  } catch (error) {
+    log.error('Error fetching real-time stats:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: 'Failed to retrieve real-time statistics'
+    });
+  }
+});
+
+// Docs route
 app.get("/docs", (req, res) => {
   try {
     res.sendFile(path.join(__dirname, "includes", "public", "docs.html"));
@@ -120,6 +190,15 @@ app.use((err, req, res, next) => {
     message: err.message
   });
 });
+
+// Periodically flush the in-memory stats to the JSON database (every 10 seconds)
+setInterval(() => {
+  fs.writeFile(dbFilePath, JSON.stringify(global.stats, null, 2), 'utf8', (err) => {
+    if (err) {
+      console.error("Error saving stats to db.json:", err);
+    }
+  });
+}, 10000);
 
 // Server initialization
 const PORT = process.env.PORT || global.config.port || 3000;
