@@ -1,11 +1,12 @@
 const axios = require("axios");
 
 exports.config = {
-  name: 'gemin',
-  author: 'Developer',
-  description: 'Interact with Gemini 2.5 Flash Lite using text and optional image (base64 or URL)',
-  category: 'ai',
-  link: ['/gemini-vision?prompt=Describe this&imgUrl=https://example.com/image.jpg']
+  name: "Gemini vision",
+  author: "Ry",
+  description: "Gemini vision AI image + prompt processing",
+  method: "get",
+  category: "ai",
+  link: ["/gemini-vision"]
 };
 
 exports.initialize = async function ({ req, res }) {
@@ -14,10 +15,10 @@ exports.initialize = async function ({ req, res }) {
     const imgBase64 = req.query.img;
     const imgUrl = req.query.imgUrl;
     const apiKey = "AIzaSyD-msS_FTZLH1yGO-iOzzzgQmg2fZS25hU";
-    const model = "gemini-2.5-flash-lite-preview-06-17";
+    const model = "gemini-2.5-pro";
 
     if (!prompt) {
-      return res.status(400).json({ error: "Missing prompt. Use ?prompt=your question" });
+      return res.status(400).json({ error: "Missing prompt. Use ?prompt=&imgUrl=" });
     }
 
     let imageData = null;
@@ -34,7 +35,7 @@ exports.initialize = async function ({ req, res }) {
     if (imageData) {
       parts.push({
         inline_data: {
-          mime_type: "image/jpeg", // You may adjust this if needed
+          mime_type: "image/jpeg", // or "image/png"
           data: imageData,
         },
       });
